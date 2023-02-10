@@ -14,7 +14,17 @@ namespace Create_Template.Controllers
         {
             if(ModelState.IsValid)
             {
-                // işlemler
+                //  Login işlemler
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //  Register işlemler
             }
             return View(model);
         }
@@ -22,6 +32,7 @@ namespace Create_Template.Controllers
         {
             return View();
         }
+
         public IActionResult Profile()
         {
             return View();
