@@ -1,7 +1,15 @@
+using Create_Template.Entities;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<DatabaseContext>(opts =>
+{
+    opts.UseSqlServer( builder.Configuration.GetConnectionString("DefaultConnection"));
+    //opts.UseLazyLoadingProxies();
+});
 
 var app = builder.Build();
 
