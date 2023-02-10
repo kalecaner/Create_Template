@@ -1,16 +1,20 @@
 ﻿using Create_Template.Entities;
 using Create_Template.Models;
 using Microsoft.AspNetCore.Mvc;
+using NETCore.Encrypt.Extensions;
 
 namespace Create_Template.Controllers
 {
     public class AccountController : Controller
     {
         private readonly DatabaseContext _databaseContext;
+       private readonly IConfiguration _configuration; // appSettings içerisinden veri almak için kullanılır
 
-        public AccountController(DatabaseContext databaseContext)
+
+        public AccountController(DatabaseContext databaseContext, IConfiguration configuration)
         {
             _databaseContext = databaseContext;
+            _configuration = configuration;
         }
 
         public IActionResult Login()
@@ -32,10 +36,13 @@ namespace Create_Template.Controllers
         {
             if (ModelState.IsValid)
             {
+                string MD5Salt = _configuration.GetValue<string>("AppSettings:MD5Salt");
+                string hashedPassword=(model.Password+MD5Salt).MD5();
+
                 User user = new()
                 {
                     Username = model.UserName,
-                    Password = model.Password
+                    Password =hashedPassword
                     // Password Encirpt etmek için netcore.encryp  nugget paketi kullanılabilir.
                 };
                 _databaseContext.Users.Add(user);
