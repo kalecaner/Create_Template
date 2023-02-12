@@ -1,5 +1,7 @@
 using Create_Template.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,32 @@ builder.Services.AddDbContext<DatabaseContext>(Opts =>
     Opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     //Opts.UseLazyLoadingProxies();
 });
+
+#region CookieSettings
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme.ToString()).AddCookie(opts =>
+{
+    // Cookie Adý
+    opts.Cookie.Name = "Template.auth";
+    //Cookie güncelleme  Süresi
+    opts.ExpireTimeSpan = TimeSpan.FromDays(7);
+    //her giriþinde expire süresininin sýfýrlanmasý saðlar. sýfýrlamamasý için kapatýldý
+    opts.SlidingExpiration = false;
+    //Cookie çalýþmadýðýnda  yada süresi dolduðunda ilerlemesi gereken sayfanýn pathi 
+    opts.LoginPath = "/Account/Login";
+    //kullanýcý logout olduðundakþ sayfanýn pathi
+    opts.LogoutPath= "/Account/Logout";
+    //Yetkisiz giriþ durumunda yönlendirilecek sayfa Pathi
+    opts.AccessDeniedPath = "/Home/AccessDenied";
+
+
+
+
+});
+
+#endregion
+
+
+
 
 var app = builder.Build();
 
@@ -25,6 +53,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+#region CookieAut sisteminin çalýþmasý için  bu methodunda pipeline eklenmiþ olmasý gerekmekte
+app.UseAuthentication(); 
+#endregion
 
 app.UseAuthorization();
 
