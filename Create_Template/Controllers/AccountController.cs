@@ -120,5 +120,10 @@ namespace Create_Template.Controllers
         {
             return View();
         }
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction(nameof(Login));
+        }
     }
 }
