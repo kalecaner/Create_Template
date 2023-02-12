@@ -2,28 +2,30 @@
 using Create_Template.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.Encrypt.Extensions;
 using System.Security.Claims;
 
 namespace Create_Template.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly DatabaseContext _databaseContext;
        private readonly IConfiguration _configuration; // appSettings içerisinden veri almak için kullanılır
-
-
         public AccountController(DatabaseContext databaseContext, IConfiguration configuration)
         {
             _databaseContext = databaseContext;
             _configuration = configuration;
         }
 
+        [AllowAnonymous] // başında authorize  attributu bulunan  bir controller altına  bu attributu yazdığında  authorize  kontrolünü o acion için devre edışı bırakır
         public IActionResult Login()
         {
             return View();
         }
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
@@ -70,7 +72,7 @@ namespace Create_Template.Controllers
             }
             return View(model);
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Register(RegisterViewModel model)
         {
@@ -111,6 +113,7 @@ namespace Create_Template.Controllers
             }
             return View(model);
         }
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
