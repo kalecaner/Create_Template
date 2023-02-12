@@ -38,7 +38,7 @@
                         @if (User.Identity.IsAuthenticated) @*eğer Controllerdaki HttpContext.SignInAsync methodu çalışırsa burasu true gelir*@
                         {
                             <li class="nav-item ms-auto">
-                                <a class="nav-link text-dark " asp-area="" asp-controller="Account" asp-action="Login"><i class="fa-solid fa-right-to-bracket me-2"></i>@User.FindFirst("Username").Value</a>
+                                <a class="nav-link text-dark " asp-area="" asp-controller="Account" asp-action="Login"><i class="fa-solid fa-user me-2"></i>@User.FindFirst("Username").Value</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link text-dark " asp-area="" asp-controller="Account" asp-action="Register"><i class="fa-solid fa-sign-out me-2"></i>Logout</a>
