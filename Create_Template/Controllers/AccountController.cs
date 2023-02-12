@@ -26,6 +26,8 @@ namespace Create_Template.Controllers
         {
             if(ModelState.IsValid)
             {
+                string MD5Salt = _configuration.GetValue<string>("AppSettings:MD5Salt");
+                string hashedPassword = (model.Password + MD5Salt).MD5();
                 //  Login işlemler
             }
             return View(model);
@@ -36,25 +38,34 @@ namespace Create_Template.Controllers
         {
             if (ModelState.IsValid)
             {
-                string MD5Salt = _configuration.GetValue<string>("AppSettings:MD5Salt");
-                string hashedPassword=(model.Password+MD5Salt).MD5();
+                if(_databaseContext.Users.Any(x=>x.Username.ToLower()==model.UserName.ToLower())) 
+                { 
+                    ModelState.AddModelError(nameof(model.UserName), "Bu kullanıcı adı daha önce eklenmiş"); 
+                }
+                else
+                {
+                    string MD5Salt = _configuration.GetValue<string>("AppSettings:MD5Salt");
+                    string hashedPassword = (model.Password + MD5Salt).MD5();
 
-                User user = new()
-                {
-                    Username = model.UserName,
-                    Password =hashedPassword
-                    // Password Encirpt etmek için netcore.encryp  nugget paketi kullanılabilir.
-                };
-                _databaseContext.Users.Add(user);
-                 int affectedRowCount= _databaseContext.SaveChanges();
-                    if (affectedRowCount==0)
-                {
-                    ModelState.AddModelError("", "Kullanıcı Eklenemedi");
+                    User user = new()
+                    {
+                        Username = model.UserName,
+                        Password = hashedPassword
+                        // Password Encirpt etmek için netcore.encryp  nugget paketi kullanılabilir.
+                    };
+                    _databaseContext.Users.Add(user);
+                    int affectedRowCount = _databaseContext.SaveChanges();
+                    if (affectedRowCount == 0)
+                    {
+                        ModelState.AddModelError("", "Kullanıcı Eklenemedi");
+                    }
+                    else if (affectedRowCount > 0)
+                    {
+                        return RedirectToAction(nameof(Login));
+                    }
+
                 }
-                else if (affectedRowCount>0)
-                {
-                    return RedirectToAction(nameof(Login));
-                }
+               
 
 
 
