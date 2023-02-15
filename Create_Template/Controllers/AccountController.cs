@@ -50,6 +50,7 @@ namespace Create_Template.Controllers
                         claims.Add(new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()));
                         claims.Add(new Claim(ClaimTypes.Name,user.Name+user.Surname ?? string.Empty));
                         claims.Add(new Claim("Username",user.Username));
+                        claims.Add(new Claim(ClaimTypes.Role,user.Role));// Kullanıcı rollerinin cookie atılması esnasında kullanılmakta
                         // ardından bir claim Identity classına ihtiyaç olmakta
                         ClaimsIdentity identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
                         //Bunun ardından da bir claimPrincipal clasına ıhtuyac var
@@ -57,6 +58,7 @@ namespace Create_Template.Controllers
                         // sonrasında  ise bir HttpContext  nesnesine ile sing in yapılamalı
                         HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,principal);
                         // Sonrasında  Program.cs  içerisinde  service builder ile  aut servisleri tanımlanmalı
+                        //Not: logot olmadan cookie verileri güncellenemez
 
                         #endregion
                         return RedirectToAction("Index", "Home");
