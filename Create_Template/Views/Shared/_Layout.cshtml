@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Create_Template</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/toastrjs/toastr.css" rel="stylesheet" />
+    <link href="~/toastrjs/toastr.min.css" rel="stylesheet" />
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <link href="~/lib/font-awesome/css/brands.min.css" rel="stylesheet" />
     <link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
@@ -44,7 +46,7 @@
                                 </li>
                             }
                             <li class="nav-item ms-auto">
-                                <a class="nav-link text-dark " asp-area="" asp-controller="Account" asp-action="Login"><i class="fa-solid fa-user me-2"></i>@User.FindFirst("Username").Value</a>
+                                <a class="nav-link text-dark " asp-area="" asp-controller="Account" asp-action="Profile"><i class="fa-solid fa-user me-2"></i>@User.FindFirst("Username").Value</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link text-dark " asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-sign-out me-2"></i>Logout</a>
@@ -79,6 +81,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/toastrjs/toastr.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="row">
+    <div class="col-4 offset-4">
+        <h1 class="display-4 border-bottom text-center pb-2">@ViewData["Title"]</h1>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-6 offset-4">
+
+        <form method="post" asp-action="ProfileChangeName"> 
+            
+           
+             
+            <div class="input-group m-3">
+                <label  class="form-label m-3 me-4"> Ad</label>
+                <input name="Name" type="text" class="form-control" placeholder="John" value="@ViewData["Name"]"> @*DBden gelen namei View Data ile  buraya taşıdık model kullanmadan*@
+                <button class="btn btn-outline-secondary" type="submit"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
+            </div>          
+            
+
+        </form>
+
+          <form method="post" asp-action="ProfileChangeSurName"> 
+          
+           
+             
+            <div class="input-group m-3">
+                <label  class="form-label m-3 me-4">Soyad</label>
+                <input name="SurName" type="text" class="form-control" placeholder="Doe" value="@ViewData["SurName"]"> @*DBden gelen namei View Data ile  buraya taşıdık model kullanmadan*@
+                <button class="btn btn-outline-secondary" type="submit"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
+            </div>          
+            
+
+        </form>
+          <form method="post" asp-action="ProfileChangeEmail"> 
+            
+           
+             
+            <div class="input-group m-3">
+                <label  class="form-label m-3 me-4">Email</label>
+                <input name="Email" type="email" class="form-control" placeholder="JohnDoe@blabla.com" value="@ViewData["Email"]"> @*DBden gelen namei View Data ile  buraya taşıdık model kullanmadan*@
+                <button class="btn btn-outline-secondary" type="submit"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
+            </div>          
+            
+
+        </form>
+
+        <form method="post" asp-action="ChangePassword">
+
+            <div class="input-group m-3">
+                <label class="form-label m-3 me-5"> Eski Şifre </label>
+                <input  name="OldPassword" type="password" class="form-control ms-4" placeholder="Old Password">
+               
+            </div>
+             <div class="input-group m-3">
+                <label  class="form-label m-3 me-5"> Yeni Şifre </label>
+                <input  name="NewPassword" type="password" class="form-control ms-4" placeholder="NewPassword">
+                
+            </div>
+            <div class="input-group m-3 mb-0">
+                <label  class="form-label m-3">Yeni Şifre Tekrar</label>
+                <input name="RePassword" type="password" class="form-control" placeholder="   Re-NewPassword">
+                <button class="btn btn-outline-secondary" type="submit"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
+            </div>
+            <div class="mb-4">  <div asp-validation-summary="All" class="text-danger small"></div>  </div>
+            @if (ViewData["Result"] != null && ViewData["Result"] == "PasswordChanged")
+            {
+                <span class="text-success small"> Parola  başarıyla değiştirildi. </span>
+            }
+        </form>
+
+    </div>
+</div>
+
+@section Scripts{
+    @if (ViewData["Result"] != null && ViewData["Result"] == "PasswordChanged")
+    {
+        <script>    
+                toastr["success"]("Şifreniz başarıyla değiştirildi.", "Şifreniz Değiştirildi."); @* Göresl olarak  sağ tarafta  balon çıkmasını sağlar toastr.js olarak  geçer*@
+        </script>
+    }
+
+                }
